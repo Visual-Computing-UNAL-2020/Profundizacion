@@ -4,9 +4,11 @@ var posicionInicialX = -74.1;
 var zoom = 12;
 var map = L.map('map').setView([posicionInicialY,posicionInicialX], zoom);
 
-//Se inicializa el dataset y la copia para filtrar los datos
+//Se inicializa el dataset, la copia para filtrar los datos y los nombres de las localidades para hacer comparaciones
 var data;
 var filteredData;
+var localityNames = ["Antonio Narino","Barrios Unidos","Bosa","Candelaria","Chapinero","Ciudad Bolivar","Engativa","Fontibon","Kennedy","Martires",
+"Puente Aranda","Rafael Uribe Uribe","San Cristobal","Santafe","Suba","Teusaquillo","Tunjuelito","Usaquen","Usme","Fuera de Bogota","Sin dato"];
 
 //Figuras de las localidades
 var localitiesPolygons;
@@ -69,6 +71,8 @@ $( document ).ready(function() {
     //Se agregan los listeners de las cards de sexo y localidad
     document.querySelector("#localitiesUpdateButton").addEventListener('click',function (event) {
         updateLocalitiesState();
+        repaintLocalities();
+        updateFilteredData();
     });
 
     document.querySelector("#sexUpdateButton").addEventListener('click',function (event) {
@@ -115,11 +119,11 @@ function updateLocalitiesState(){
         document.querySelector("#fueraDeBogotaCheckbox").checked,
         document.querySelector("#sindatoCheckbox").checked,
     ];
-    repaintLocalities();
+
 }
 
 function repaintLocalities() {
-    for (var i = 0; i < state.localities.length-2; i++) {
+    for (var i = 0; i < state.localities.length-2; i++) { //-2 porque 'sin dato' y 'fuera de bogota' no tienen región
         if(state.localities[i]){
             map.addLayer(localitiesPolygons[i]);
         }else{
@@ -128,6 +132,43 @@ function repaintLocalities() {
     }
 }
 
+function updateFilteredData() {
+
+    filteredData=[]
+    var localityNamesAux = Array.from(localityNames) ;
+    var indexToDelete = [];
+
+    //Se guarda el índice de las localidades que no se desean
+    for (var i = 0; i < state.localities.length; i++) {
+        if(!state.localities[i]){
+            indexToDelete.push(i);
+        }
+    }
+
+    //Se eliminan las localidades de los índices dados
+    for (var i = indexToDelete.length ; i > 0; i--) {
+        localityNamesAux.splice(indexToDelete[i-1],1);
+    }
+
+    //Filtro localidades
+    for (var i = 0; i < data.length; i++) {
+        for (var j = 0; j < localityNamesAux.length; j++) {
+            if(data[i].join().split(",")[3] === localityNamesAux[j]){
+                filteredData.push(data[i]);
+            }
+        }
+    }
+
+    //Filtro edad
+
+    //AQUI QUEDÉ
+
+    //Filtro sexo
+
+    //Filtro fecha
+}
+
+
 function updateSexState(){
     state.sexos = [
         document.querySelector("#femaleCheckbox").checked,
@@ -135,6 +176,8 @@ function updateSexState(){
     ];
     console.log(state.sexos);
 }
+
+
 
 function iniciar(results) {
 
