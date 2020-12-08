@@ -1,0 +1,82 @@
+/*Tags*/
+html,body{
+    background-color: cadetblue;
+    height: 100%;
+}
+
+/*IDs*/
+#chargeCSV{
+    top: 250px;
+    left: 400px;
+    z-index: 2;
+    box-shadow: 5px 5px 5px #888;
+}
+
+#map {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 5px 5px 5px #888;
+}
+
+#localityControl{
+    top: 90px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+}
+
+#ageControl{
+    top: 350px;
+    left: 20px;
+    width: 180px;
+    height: 200px;
+}
+
+#sexControl{
+    top: 90px;
+    left: 1180px;
+    width: 180px;
+    height: 185px;
+
+}
+
+#dateControl{
+    top: 350px;
+    left: 1180px;
+    width: 180px;
+    height: 260px;
+
+}
+
+/*Classes*/
+
+.datepickerStyle{
+    height: 24px;
+    width: 40px;
+}
+
+.control{
+    z-index: 2;
+    position: absolute;
+    background-color: white;
+    box-shadow: 1px 1px 1px #888;
+    border-radius: 5px;
+
+}
+
+.inputEdad{
+    width: 50px;
+    height: 20px;
+
+}
+
+.pAges{
+    font-size:13px;
+}
+
+.sinPadding{
+    padding: 0;
+}
+
+/*Hijos*/
