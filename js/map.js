@@ -656,8 +656,24 @@ function createPolygons() {
         [4.56496, -74.10489]
     ],{color: 'green'}).addTo(map);
 
-    sanCristobal.on('click', function () {
-        console.log(getDataByLocality("San Cristobal",data))
+    sanCristobal.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("San Cristobal",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
     });
 
     var rafaelUribeUribe = L.polygon([
@@ -681,8 +697,24 @@ function createPolygons() {
 
     ],{color: 'blue'}).addTo(map);
 
-    rafaelUribeUribe.on('click', function () {
-        console.log(getDataByLocality("Rafael Uribe Uribe",data))
+    rafaelUribeUribe.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Rafael Uribe Uribe",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
     });
 
     var tunjuelito = L.polygon([
@@ -712,8 +744,24 @@ function createPolygons() {
 
     ],{color: 'yellow'}).addTo(map);
 
-    tunjuelito.on('click', function () {
-        console.log(getDataByLocality("Tunjuelito",data))
+    tunjuelito.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Tunjuelito",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
     });
 
     var ciudadBolivar = L.polygon([
@@ -739,6 +787,26 @@ function createPolygons() {
         [4.57095, -74.17849]
 
     ],{color: 'purple'}).addTo(map);
+
+    ciudadBolivar.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Ciudad Bolivar",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var bosa = L.polygon([
         [4.61554, -74.17673],
@@ -777,6 +845,26 @@ function createPolygons() {
         [4.61888, -74.18057]
 
     ],{color: 'orange'}).addTo(map);
+
+    bosa.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Bosa",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var kennedy = L.polygon([
         [4.65693, -74.17188],
@@ -817,6 +905,26 @@ function createPolygons() {
 
     ],{color: 'grey'}).addTo(map);
 
+    kennedy.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Kennedy",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
     var puenteAranda = L.polygon([
         [4.59482, -74.13737],
         [4.60885, -74.12883],
@@ -831,6 +939,26 @@ function createPolygons() {
         [4.59319, -74.12493]
 
     ],{color: 'brown'}).addTo(map);
+
+    puenteAranda.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Puente Aranda",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var antonioNarino = L.polygon([
 
@@ -849,6 +977,26 @@ function createPolygons() {
         [4.57565, -74.09459],
 
     ],{color: 'olive'}).addTo(map);
+
+    antonioNarino.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Antonio Narino",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
 
     var candelaria = L.polygon([
@@ -872,6 +1020,26 @@ function createPolygons() {
         [4.58966, -74.07519],
         [4.59056, -74.07948]
     ],{color: 'fuchsia'}).addTo(map);
+
+    candelaria.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Candelaria",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var coordenadasSantaFe = [
         //Exterior
@@ -938,6 +1106,26 @@ function createPolygons() {
 
     var santaFe = L.polygon(coordenadasSantaFe).addTo(map);
 
+    santaFe.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Santafe",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
     var martires = L.polygon([
 
         [4.62481, -74.08296],
@@ -951,6 +1139,26 @@ function createPolygons() {
         [4.62382, -74.07888],
 
     ],{color: 'GreenYellow'}).addTo(map);
+
+    martires.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Martires",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var teusaquillo = L.polygon([
 
@@ -966,6 +1174,26 @@ function createPolygons() {
         [4.62774, -74.06862],
 
     ],{color: 'black'}).addTo(map);
+
+    teusaquillo.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Teusaquillo",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
 
     var chapinero = L.polygon([
@@ -1004,6 +1232,26 @@ function createPolygons() {
 
     ],{color: 'MediumSpringGreen'}).addTo(map);
 
+    chapinero.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Chapinero",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
     var usaquen = L.polygon([
         [4.68683, -74.05699],
         [4.68554, -74.04985],
@@ -1029,6 +1277,27 @@ function createPolygons() {
         [4.82518, -74.03481],
 
     ],{color: 'Indigo'}).addTo(map);
+
+    usaquen.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Usaquen",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
 
     var suba = L.polygon([
         [4.68683, -74.05699],
@@ -1070,6 +1339,26 @@ function createPolygons() {
 
     ],{color: 'Maroon'}).addTo(map);
 
+    suba.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Suba",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
     var barriosUnidos = L.polygon([
         [4.68683, -74.05699],
         [4.65402, -74.0633],
@@ -1082,6 +1371,26 @@ function createPolygons() {
         [4.68969, -74.06459]
 
     ],{color: 'Gold'}).addTo(map);
+
+    barriosUnidos.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Barrios Unidos",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     var fontibon = L.polygon([
 
@@ -1116,6 +1425,26 @@ function createPolygons() {
 
     ],{color: 'red'}).addTo(map);
 
+    fontibon.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Fontibon",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
+
     var engativa = L.polygon([
 
         [4.65411, -74.10321],
@@ -1142,6 +1471,26 @@ function createPolygons() {
         [4.68533, -74.07746]
 
     ],{color: 'grey'}).addTo(map);
+
+    engativa.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Engativa",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
+            })
+        } ).addTo(map);
+
+
+    });
 
     return [antonioNarino,barriosUnidos,bosa,candelaria,chapinero,ciudadBolivar,engativa,fontibon,kennedy,martires,puenteAranda,rafaelUribeUribe,sanCristobal,santaFe,suba,teusaquillo,tunjuelito,usaquen,usme];
 
