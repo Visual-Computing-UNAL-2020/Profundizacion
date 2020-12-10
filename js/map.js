@@ -101,15 +101,15 @@ $( document ).ready(function() {
     });
 
     document.querySelector("#evolutionButton").addEventListener('click',function (event) {
-        deployEvolutionChart("06/03/2020","06/05/2020",'evolutionChart',data);
+        deployEvolutionChart(state.fechas[0],state.fechas[1],'evolutionChart',filteredData);
     });
 
     document.querySelector("#casesButton").addEventListener('click',function (event) {
-        deployCasesChart(1,103,'casesChart',data);
+        deployCasesChart(state.ages[0],state.ages[1],'casesChart',filteredData);
     });
 
     document.querySelector("#statesButton").addEventListener('click',function (event) {
-        deployStateChart('statesChart',data);
+        deployStateChart('statesChart',filteredData);
     });
 
 });
@@ -150,22 +150,22 @@ function evolutionFrequencies(initDate,endDate,data){
     var fechaAuxString="13/03/1971";
 
     var fechaAux = new Date(parseInt(fechaAuxString.split("/")[2]),parseInt(fechaAuxString.split("/")[1])-1,parseInt(fechaAuxString.split("/")[0]));
-    var fechaInicio = new Date(parseInt(initDate.split("/")[2]),parseInt(initDate.split("/")[1])-1,parseInt(initDate.split("/")[0]));
-    var fechaFinal = new Date(parseInt(endDate.split("/")[2]),parseInt(endDate.split("/")[1])-1,parseInt(endDate.split("/")[0]));
+    var fechaInicio = new Date(parseInt(initDate.split("/")[2]),parseInt(initDate.split("/")[0])-1,parseInt(initDate.split("/")[1]));
+    var fechaFinal = new Date(parseInt(endDate.split("/")[2]),parseInt(endDate.split("/")[0])-1,parseInt(endDate.split("/")[1]));
 
     var frequenciesArray = [];
     var datesArray = [];
     var frequenciesIndex = -1;
     var frequenciesAux = 0;
 
-    for (var i = 1; i < data.length-1; i++) {
+    for (var i = 0; i < data.length; i++) {
 
         //console.log("("+i+")________________");
         var fechaActualString = data[i].join().split(",")[1];
         var fechaActual = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
 
         if(fechaActual>=fechaInicio && fechaActual<=fechaFinal){//La fecha es agregada
-          //  console.log("\tLa fecha "+fechaActual+" esta dentro de los limites");
+            //console.log("\tLa fecha "+fechaActual+" esta dentro de los limites");
 
             //console.log("Comparamos "+fechaAux+" con "+fechaActual);
             if(fechaAux.getTime() != fechaActual.getTime()){
@@ -176,7 +176,7 @@ function evolutionFrequencies(initDate,endDate,data){
                 }
 
                 frequenciesIndex++;
-              //  console.log("\tCAMBIO DE FECHA");
+                //console.log("\tCAMBIO DE FECHA");
                 //console.log("\tAntes: "+fechaAuxString);
 
                 fechaAux = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
@@ -194,7 +194,7 @@ function evolutionFrequencies(initDate,endDate,data){
             //console.log("La fecha "+fechaActual);
             //console.log("PAILA");
         }
-   //     console.log("________________");
+        //console.log("________________");
     }
 
     var retornar = [frequenciesArray,datesArray];
@@ -209,6 +209,8 @@ function deployCasesChart(minimaEdad,maximaEdad,divName,data){
     var ctx = document.getElementById(divName).getContext('2d');
 
     var frequencies = casesFrequencies(minimaEdad,maximaEdad,data);
+
+    console.log(frequencies);
 
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -237,14 +239,17 @@ function casesFrequencies(minimaEdad,maximaEdad,data){
     var frequenciesArray = new Array(maximaEdad-minimaEdad+1);
     var agesArray = new Array(maximaEdad-minimaEdad+1);
 
+
     for (let i = 0; i < agesArray.length; i++) {
-        agesArray[i]=minimaEdad+i;
+        agesArray[i]=parseInt(minimaEdad)+parseInt(i);
         frequenciesArray[i]=0;
     }
 
-    for (var i = 1; i < data.length-1; i++) {
 
-        var edadActual = data[i].join().split(',')[4]
+
+    for (var i = 0; i < data.length; i++) {
+
+        var edadActual = parseInt(data[i].join().split(',')[4])
 
         if(edadActual>= minimaEdad && edadActual<=maximaEdad){
             frequenciesArray[edadActual-1]=frequenciesArray[edadActual-1]+1;
@@ -260,6 +265,7 @@ function deployStateChart(divName,data){
     var ctx = document.getElementById(divName).getContext('2d');
 
     var frequencies = stateFrequencies(data);
+    console.log(frequencies);
 
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -285,16 +291,17 @@ function deployStateChart(divName,data){
 
 function stateFrequencies(data){
 
-    var statesArray = ["Fallecido","Moderado","Recuperado","Severo"]
-    var frequenciesArray = new Array(4);
+    var statesArray = ["Fallecido","Moderado","Recuperado","Severo","Critico"]
+    var frequenciesArray = new Array(statesArray.length);
 
     for (let i = 0; i < statesArray.length; i++) {
         frequenciesArray[i]=0;
     }
 
-    for (var i = 1; i < data.length-1; i++) {
+    for (var i = 0; i < data.length; i++) {
 
         var estadoActual = data[i].join().split(',')[8]
+        console.log(estadoActual)
 
         if(estadoActual=="Fallecido"){
             frequenciesArray[0]=frequenciesArray[0]+1;
@@ -307,6 +314,9 @@ function stateFrequencies(data){
 
         }else if(estadoActual=="Severo"){
             frequenciesArray[3]=frequenciesArray[3]+1;
+
+        }else if(estadoActual=="Critico"){
+            frequenciesArray[4]=frequenciesArray[4]+1;
 
         }
 
