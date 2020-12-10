@@ -19,9 +19,10 @@ var state = {
     "ages" : [1,103],                                           //Lista de dos posiciones: [0]->Edad minima [1]->Edad máxima
     "sexos": [1,1],                                             //Lista de dos posiciones: [0]->Mujer [1]->Hombre
     "fechas": ["03/06/2020","05/06/2020"],                      //Lista de dos posiciones: [0]->fechaMinima [1]->fechaMaxima
+    "nRegistros" : 3599                                         //Numero de registros de la busqueda actual
 };
 
-//Inicio
+//INICIO
 $( document ).ready(function() {
 
     //Se crean los datepicker para filtrar por fecha
@@ -33,12 +34,14 @@ $( document ).ready(function() {
     $("#ageControl").hide();
     $("#sexControl").hide();
     $("#dateControl").hide();
+    $("#registerCounter").hide();
 
     //Permitir que sean draggables los divs de control
     $( "#localityControl" ).draggable();
     $("#ageControl").draggable();
     $("#sexControl").draggable();
     $("#dateControl").draggable();
+    $("#registerCounter").draggable();
 
     //Script para cargar el CSV
     $('#submit-file').on("click",function(e){
@@ -71,29 +74,33 @@ $( document ).ready(function() {
     //Se agregan los listeners de las cards de sexo y localidad
     document.querySelector("#localitiesUpdateButton").addEventListener('click',function (event) {
         updateLocalitiesState();
-        repaintLocalities();
         updateFilteredData();
+        repaintLocalities();
     });
 
     document.querySelector("#sexUpdateButton").addEventListener('click',function (event) {
         updateSexState();
+        updateFilteredData();
+        //repintar los sexos
+    });
+
+    document.querySelector("#ageForm").addEventListener('submit',function (event) {
+        event.preventDefault();
+        updateAgesState();
+        updateFilteredData();
+        //repintar el mapa
+    });
+
+    document.querySelector("#dateForm").addEventListener('submit',function (event) {
+        event.preventDefault();
+        updateDateState();
+        updateFilteredData();
+        //repintar el mapa
     });
 
 });
 
-//FUNCIONES
-
-function buildMap(){
-
-    //Se crea el mapa
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-        maxZoom: 18
-    }).addTo(map);
-
-    //Se añaden los controles de escala
-    L.control.scale().addTo(map);
-}
+//FUNCIONES UPDATE STATE
 
 function updateLocalitiesState(){
     state.localities = [
@@ -122,6 +129,42 @@ function updateLocalitiesState(){
 
 }
 
+function updateSexState(){
+    state.sexos = [
+        document.querySelector("#femaleCheckbox").checked,
+        document.querySelector("#maleCheckbox").checked
+    ];
+}
+
+function updateAgesState(){
+    state.ages = [
+        document.querySelector("#minAge").value,
+        document.querySelector("#maxAge").value
+    ]
+}
+
+function updateDateState(){
+    state.fechas = [
+        document.querySelector("#initDateDatepicker").value,
+        document.querySelector("#endDateDatepicker").value
+    ]
+
+}
+
+//OTRAS FUNCIONES
+
+function buildMap(){
+
+    //Se crea el mapa
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18
+    }).addTo(map);
+
+    //Se añaden los controles de escala
+    L.control.scale().addTo(map);
+}
+
 function repaintLocalities() {
     for (var i = 0; i < state.localities.length-2; i++) { //-2 porque 'sin dato' y 'fuera de bogota' no tienen región
         if(state.localities[i]){
@@ -136,21 +179,24 @@ function updateFilteredData() {
 
     filteredData=[]
     var localityNamesAux = Array.from(localityNames) ;
+
+
+    //FILTRO LOCALIDADES
     var indexToDelete = [];
 
-    //Se guarda el índice de las localidades que no se desean
+    //1.Se guarda el índice de las localidades que no se desean
     for (var i = 0; i < state.localities.length; i++) {
         if(!state.localities[i]){
             indexToDelete.push(i);
         }
     }
 
-    //Se eliminan las localidades de los índices dados
+    //2. Se eliminan las localidades de los índices dados
     for (var i = indexToDelete.length ; i > 0; i--) {
         localityNamesAux.splice(indexToDelete[i-1],1);
     }
 
-    //Filtro localidades
+    //3. Se agregan al arreglo todos los datos que tengan las localidades deseadas
     for (var i = 0; i < data.length; i++) {
         for (var j = 0; j < localityNamesAux.length; j++) {
             if(data[i].join().split(",")[3] === localityNamesAux[j]){
@@ -158,25 +204,80 @@ function updateFilteredData() {
             }
         }
     }
+    //FILTRO EDAD
+    indexToDelete = [];
 
-    //Filtro edad
+    //1. Se buscan los índices a borrar
+    for (var i = 0; i <filteredData.length ; i++) {
 
-    //AQUI QUEDÉ
+        if(!(parseInt(filteredData[i].join().split(",")[4]) >= parseInt(state.ages[0]) && parseInt(filteredData[i].join().split(",")[4]) <= parseInt(state.ages[1]))){
+            //Se revisa que la edad del dato NO esté en el rango deseado
+            //Si se cumple esto, se procede a eliminar
+            indexToDelete.push(i);
+        }
+    }
 
-    //Filtro sexo
+    //2. Se eliminan los índices del arreglo filtrado
+    for (var i = indexToDelete.length ; i > 0; i--) {
+        filteredData.splice(indexToDelete[i-1],1);
+    }
 
-    //Filtro fecha
+    //FILTRO SEXO
+    indexToDelete = [];
+
+    //1. Se revisan los índices que se deben eliminar
+    for (var i = 0; i <filteredData.length ; i++) {
+
+        //Obtengo el sexo
+        var sexoMasculino = filteredData[i].join().split(",")[5] === 'M' ? 1:0; //1 si es hombre, 0 si es mujer
+
+        if(!state.sexos[0] && !sexoMasculino){
+            // Se revisa si se solicita eliminar las mujeres y se revisa si el dato i-esimo es mujer
+            indexToDelete.push(i);
+        }
+
+        if(!state.sexos[1] && sexoMasculino){
+            // Se revisa si se solicita eliminar los hombres y se revisa si el dato i-esimo es hombre
+            indexToDelete.push(i);
+        }
+    }
+
+    //2. Se eliminan los índices del arreglo filtrado
+    for (var i = indexToDelete.length ; i > 0; i--) {
+        filteredData.splice(indexToDelete[i-1],1);
+    }
+
+    //FILTRO FECHA
+    indexToDelete = [];
+
+   //1. Revisar qué índices se eliminarán
+
+    var fechaMinima = new Date(parseInt(state.fechas[0].split("/")[2]),parseInt(state.fechas[0].split("/")[0])-1,parseInt(state.fechas[0].split("/")[1]))
+    var fechaMaxima = new Date(parseInt(state.fechas[1].split("/")[2]),parseInt(state.fechas[1].split("/")[0])-1,parseInt(state.fechas[1].split("/")[1]))
+
+    for (var i = 0; i <filteredData.length ; i++) {
+
+
+        var fechaEvaluarString = filteredData[i].join().split(",")[1];
+        var fechaEvaluar = new Date(fechaEvaluarString.split("/")[2],fechaEvaluarString.split("/")[1]-1,fechaEvaluarString.split("/")[0]);
+
+        if(!((fechaEvaluar >= fechaMinima) && (fechaEvaluar <= fechaMaxima))){
+            //Se revisa que la edad del dato NO esté en el rango deseado
+            //Si se cumple esto, se procede a eliminar
+            indexToDelete.push(i);
+        }
+    }
+
+    //2. Se eliminan los índices del arreglo filtrado
+    for (var i = indexToDelete.length ; i > 0; i--) {
+        filteredData.splice(indexToDelete[i-1],1);
+    }
+
+    state.nRegistros = filteredData.length;
+    $("#h6NRegistros").text(state.nRegistros);
+
+    console.log(filteredData.length);
 }
-
-
-function updateSexState(){
-    state.sexos = [
-        document.querySelector("#femaleCheckbox").checked,
-        document.querySelector("#maleCheckbox").checked
-    ];
-    console.log(state.sexos);
-}
-
 
 
 function iniciar(results) {
@@ -193,6 +294,7 @@ function iniciar(results) {
     $("#sexControl").show();
     $("#localityControl").show();
     $("#dateControl").show();
+    $("#registerCounter").show();
 
 }
 
@@ -218,6 +320,10 @@ function createPolygons() {
         [4.52748, -74.06897],
 
     ],{color: 'red'}).addTo(map);
+
+    usme.on('click', function () {
+        L.marker
+    });
 
     var sanCristobal = L.polygon([
         [4.54588, -74.10158],

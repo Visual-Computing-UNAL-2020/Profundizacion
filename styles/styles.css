@@ -49,6 +49,14 @@ html,body{
 
 }
 
+#registerCounter{
+    top: 50px;
+    left: 500px;
+    width: 180px;
+    height: 40px;
+
+}
+
 /*Classes*/
 
 .datepickerStyle{
