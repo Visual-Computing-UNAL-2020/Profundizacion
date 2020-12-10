@@ -160,45 +160,86 @@ function evolutionFrequencies(initDate,endDate,data){
 
     for (var i = 0; i < data.length; i++) {
 
-        //console.log("("+i+")________________");
+        console.log("("+i+")________________");
         var fechaActualString = data[i].join().split(",")[1];
         var fechaActual = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
 
         if(fechaActual>=fechaInicio && fechaActual<=fechaFinal){//La fecha es agregada
-            //console.log("\tLa fecha "+fechaActual+" esta dentro de los limites");
+            console.log("\tLa fecha "+fechaActual+" esta dentro de los limites");
 
-            //console.log("Comparamos "+fechaAux+" con "+fechaActual);
+            console.log("Comparamos "+fechaAux+" con "+fechaActual);
             if(fechaAux.getTime() != fechaActual.getTime()){
 
-                if(frequenciesIndex!=-1){
-                    frequenciesArray.push(fechaAuxString);
-                    datesArray.push(frequenciesAux);
-                }
 
+                if(frequenciesIndex!=-1){
+
+                    var repeatedPosition = -1;
+                    for (var j = 0; j < frequenciesArray.length; j++) {
+                        console.log("Holi");
+                        console.log(frequenciesArray[j]);
+                        console.log(fechaAuxString);
+                        console.log("baio");
+                        if(frequenciesArray[j]==fechaAuxString){
+                            console.log("Fecha ya insertada");
+                            repeatedPosition = j;
+                            break;
+                        }
+                    }
+
+                    if(repeatedPosition!=-1){
+                        datesArray[j]=datesArray[j]+frequenciesAux
+                    }else{
+                        frequenciesArray.push(fechaAuxString);
+                        datesArray.push(frequenciesAux);
+                    }
+
+                }
                 frequenciesIndex++;
-                //console.log("\tCAMBIO DE FECHA");
-                //console.log("\tAntes: "+fechaAuxString);
+                console.log("\tCAMBIO DE FECHA");
+                console.log("\tAntes: "+fechaAuxString);
 
                 fechaAux = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
                 fechaAuxString = data[i].join().split(",")[1];
                 frequenciesAux=1;
 
-                //console.log("\tAhora: "+fechaAuxString);
+                console.log("\tAhora: "+fechaAuxString);
 
             }else{
-                //console.log("\tAUMENTO DE FRECUENCIA")
+                console.log("\tAUMENTO DE FRECUENCIA")
                 frequenciesAux++;
             }
         }else{
 
-            //console.log("La fecha "+fechaActual);
-            //console.log("PAILA");
+            console.log("La fecha "+fechaActual);
+            console.log("PAILA");
         }
-        //console.log("________________");
+        console.log("________________");
+    }
+
+    repeatedPosition = -1;
+    for (var j = 0; j < frequenciesArray.length; j++) {
+        console.log("Holi");
+        console.log(frequenciesArray[j]);
+        console.log(fechaAuxString);
+        console.log("baio");
+        if(frequenciesArray[j]==fechaAuxString){
+            console.log("Fecha ya insertada");
+            repeatedPosition = j;
+            break;
+        }
+    }
+
+    if(repeatedPosition!=-1){
+        console.log("Me reemplazaré")
+        datesArray[j]=datesArray[j]+frequenciesAux
+    }else{
+        console.log("NO Me reemplazaré")
+        frequenciesArray.push(fechaAuxString);
+        datesArray.push(frequenciesAux);
     }
 
     var retornar = [frequenciesArray,datesArray];
-    //console.log(retornar);
+    console.log(retornar);
 
     return retornar;
 
@@ -542,6 +583,9 @@ function iniciar(results) {
 }
 
 function createPolygons() {
+
+    var marker;
+
     var usme = L.polygon([
         [4.4711, -74.08184],
         [4.4634, -74.13016],
@@ -564,8 +608,6 @@ function createPolygons() {
 
     ],{color: 'red'}).addTo(map);
 
-    var marker;
-
     usme.on('click', function (event) {
         if(marker != undefined){
             map.removeLayer(marker);
@@ -576,7 +618,10 @@ function createPolygons() {
         marker = L.marker(event.latlng,{
             icon: new L.DivIcon({
                 className: 'my-div-icon',
-                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1">'+datosLocalidad.length+' casos'+'</div></div> '
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1"><p class="pAges text-center font-weight-bold text-info">'+datosLocalidad.length+' casos'+'</p>' +
+                    '<div class="row"><div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Evolución contagios</p></div> <div class="col-md-4 sinPadding"><p class="pPequeno text-center font-weight-bold text-dark my-0"> Casos por edad </p></div> <div class="col-md-4 sinPadding"> <p class="my-0 pPequeno text-center font-weight-bold text-dark">Estados</p></div></div> ' +
+                    '<div class="row"><div class="col-md-4 sinPadding text-center"> <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i> </div> <div class="col-md-4 sinPadding text-center"> <i class="fa fa-heart fa-2x" aria-hidden="true"></i></div></div>' +
+                    '</div></div> '
             })
         } ).addTo(map);
 
