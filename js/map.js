@@ -294,18 +294,44 @@ function stateFrequencies(data){
 
     for (var i = 1; i < data.length-1; i++) {
 
-        var edadActual = data[i].join().split(',')[4]
+        var estadoActual = data[i].join().split(',')[8]
 
-        if(edadActual>= minimaEdad && edadActual<=maximaEdad){
-            frequenciesArray[edadActual-1]=frequenciesArray[edadActual-1]+1;
+        if(estadoActual=="Fallecido"){
+            frequenciesArray[0]=frequenciesArray[0]+1;
+
+        }else if(estadoActual=="Moderado"){
+            frequenciesArray[1]=frequenciesArray[1]+1;
+
+        }else if(estadoActual=="Recuperado"){
+            frequenciesArray[2]=frequenciesArray[2]+1;
+
+        }else if(estadoActual=="Severo"){
+            frequenciesArray[3]=frequenciesArray[3]+1;
+
         }
 
     }
 
-    return [agesArray,frequenciesArray]
+    return [statesArray,frequenciesArray]
 
 }
 
+function getDataByLocality(localityName,data){
+
+    var dataReturned = [];
+    for (var i = 0; i < data.length; i++) {
+        var currentLocality = data[i].join().split(',')[3]
+
+
+        //console.log("Comparando "+currentLocality+" con "+localityName);
+        if(currentLocality == localityName){
+            dataReturned.push(data[i]);
+        }
+    }
+
+    return dataReturned;
+
+}
 //FUNCIONES UPDATE STATE
 
 function updateLocalitiesState(){
@@ -528,8 +554,23 @@ function createPolygons() {
 
     ],{color: 'red'}).addTo(map);
 
-    usme.on('click', function () {
-        L.marker
+    var marker;
+
+    usme.on('click', function (event) {
+        if(marker != undefined){
+            map.removeLayer(marker);
+        }
+
+        var datosLocalidad = getDataByLocality("Usme",filteredData);
+
+        marker = L.marker(event.latlng,{
+            icon: new L.DivIcon({
+                className: 'my-div-icon',
+                html: ' <div class="card control dialogo" > <div class="card-body px-1 py-1">'+datosLocalidad.length+' casos'+'</div></div> '
+            })
+        } ).addTo(map);
+
+
     });
 
     var sanCristobal = L.polygon([
@@ -560,6 +601,10 @@ function createPolygons() {
         [4.56496, -74.10489]
     ],{color: 'green'}).addTo(map);
 
+    sanCristobal.on('click', function () {
+        console.log(getDataByLocality("San Cristobal",data))
+    });
+
     var rafaelUribeUribe = L.polygon([
         [4.57565, -74.09459],
         [4.56496, -74.10489],
@@ -580,6 +625,10 @@ function createPolygons() {
         [4.58902, -74.10883]
 
     ],{color: 'blue'}).addTo(map);
+
+    rafaelUribeUribe.on('click', function () {
+        console.log(getDataByLocality("Rafael Uribe Uribe",data))
+    });
 
     var tunjuelito = L.polygon([
         [4.52509, -74.1251],
@@ -607,6 +656,10 @@ function createPolygons() {
 
 
     ],{color: 'yellow'}).addTo(map);
+
+    tunjuelito.on('click', function () {
+        console.log(getDataByLocality("Tunjuelito",data))
+    });
 
     var ciudadBolivar = L.polygon([
         [4.59627, -74.18312],

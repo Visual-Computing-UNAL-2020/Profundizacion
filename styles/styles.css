@@ -108,3 +108,9 @@ html,body{
     z-index: 1;
 }
 /*Hijos*/
+
+.dialogo{
+    width: 200px;
+    height: 100px;
+    background-color: white;
+}
