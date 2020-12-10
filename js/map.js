@@ -35,6 +35,8 @@ $( document ).ready(function() {
     $("#sexControl").hide();
     $("#dateControl").hide();
     $("#registerCounter").hide();
+    $("#chartButtons").hide();
+
 
     //Permitir que sean draggables los divs de control
     $( "#localityControl" ).draggable();
@@ -98,7 +100,211 @@ $( document ).ready(function() {
         //repintar el mapa
     });
 
+    document.querySelector("#evolutionButton").addEventListener('click',function (event) {
+        deployEvolutionChart("06/03/2020","06/05/2020",'evolutionChart',data);
+    });
+
+    document.querySelector("#casesButton").addEventListener('click',function (event) {
+        deployCasesChart(1,103,'casesChart',data);
+    });
+
+    document.querySelector("#statesButton").addEventListener('click',function (event) {
+        deployStateChart('statesChart',data);
+    });
+
 });
+
+
+//FUNCIONES CHARTS
+
+function deployEvolutionChart(initDate,endDate,divName,data){
+
+    var ctx = document.getElementById(divName).getContext('2d');
+
+    var frequencies = evolutionFrequencies(initDate,endDate,data);
+    console.log(frequencies);
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: frequencies[0],
+            datasets: [{
+                label: 'Evolución de contagios de covid-19 en BOGOTÁ',
+                data: frequencies[1],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function evolutionFrequencies(initDate,endDate,data){
+    var fechaAuxString="13/03/1971";
+
+    var fechaAux = new Date(parseInt(fechaAuxString.split("/")[2]),parseInt(fechaAuxString.split("/")[1])-1,parseInt(fechaAuxString.split("/")[0]));
+    var fechaInicio = new Date(parseInt(initDate.split("/")[2]),parseInt(initDate.split("/")[1])-1,parseInt(initDate.split("/")[0]));
+    var fechaFinal = new Date(parseInt(endDate.split("/")[2]),parseInt(endDate.split("/")[1])-1,parseInt(endDate.split("/")[0]));
+
+    var frequenciesArray = [];
+    var datesArray = [];
+    var frequenciesIndex = -1;
+    var frequenciesAux = 0;
+
+    for (var i = 1; i < data.length-1; i++) {
+
+        //console.log("("+i+")________________");
+        var fechaActualString = data[i].join().split(",")[1];
+        var fechaActual = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
+
+        if(fechaActual>=fechaInicio && fechaActual<=fechaFinal){//La fecha es agregada
+          //  console.log("\tLa fecha "+fechaActual+" esta dentro de los limites");
+
+            //console.log("Comparamos "+fechaAux+" con "+fechaActual);
+            if(fechaAux.getTime() != fechaActual.getTime()){
+
+                if(frequenciesIndex!=-1){
+                    frequenciesArray.push(fechaAuxString);
+                    datesArray.push(frequenciesAux);
+                }
+
+                frequenciesIndex++;
+              //  console.log("\tCAMBIO DE FECHA");
+                //console.log("\tAntes: "+fechaAuxString);
+
+                fechaAux = new Date(parseInt(fechaActualString.split("/")[2]),parseInt(fechaActualString.split("/")[1])-1,parseInt(fechaActualString.split("/")[0]));
+                fechaAuxString = data[i].join().split(",")[1];
+                frequenciesAux=1;
+
+                //console.log("\tAhora: "+fechaAuxString);
+
+            }else{
+                //console.log("\tAUMENTO DE FRECUENCIA")
+                frequenciesAux++;
+            }
+        }else{
+
+            //console.log("La fecha "+fechaActual);
+            //console.log("PAILA");
+        }
+   //     console.log("________________");
+    }
+
+    var retornar = [frequenciesArray,datesArray];
+    //console.log(retornar);
+
+    return retornar;
+
+}
+
+function deployCasesChart(minimaEdad,maximaEdad,divName,data){
+
+    var ctx = document.getElementById(divName).getContext('2d');
+
+    var frequencies = casesFrequencies(minimaEdad,maximaEdad,data);
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: frequencies[0],
+            datasets: [{
+                label: 'No. de casos por edad de covid-19 en BOGOTÁ',
+                data: frequencies[1],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function casesFrequencies(minimaEdad,maximaEdad,data){
+
+    var frequenciesArray = new Array(maximaEdad-minimaEdad+1);
+    var agesArray = new Array(maximaEdad-minimaEdad+1);
+
+    for (let i = 0; i < agesArray.length; i++) {
+        agesArray[i]=minimaEdad+i;
+        frequenciesArray[i]=0;
+    }
+
+    for (var i = 1; i < data.length-1; i++) {
+
+        var edadActual = data[i].join().split(',')[4]
+
+        if(edadActual>= minimaEdad && edadActual<=maximaEdad){
+            frequenciesArray[edadActual-1]=frequenciesArray[edadActual-1]+1;
+        }
+
+    }
+
+    return [agesArray,frequenciesArray]
+}
+
+function deployStateChart(divName,data){
+
+    var ctx = document.getElementById(divName).getContext('2d');
+
+    var frequencies = stateFrequencies(data);
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: frequencies[0],
+            datasets: [{
+                label: 'No. de casos por edad de covid-19 en BOGOTÁ',
+                data: frequencies[1],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function stateFrequencies(data){
+
+    var statesArray = ["Fallecido","Moderado","Recuperado","Severo"]
+    var frequenciesArray = new Array(4);
+
+    for (let i = 0; i < statesArray.length; i++) {
+        frequenciesArray[i]=0;
+    }
+
+    for (var i = 1; i < data.length-1; i++) {
+
+        var edadActual = data[i].join().split(',')[4]
+
+        if(edadActual>= minimaEdad && edadActual<=maximaEdad){
+            frequenciesArray[edadActual-1]=frequenciesArray[edadActual-1]+1;
+        }
+
+    }
+
+    return [agesArray,frequenciesArray]
+
+}
 
 //FUNCIONES UPDATE STATE
 
@@ -295,6 +501,7 @@ function iniciar(results) {
     $("#localityControl").show();
     $("#dateControl").show();
     $("#registerCounter").show();
+    $("#chartButtons").show();
 
 }
 

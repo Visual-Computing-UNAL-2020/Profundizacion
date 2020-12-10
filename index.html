@@ -7,7 +7,6 @@
     <!-- Scripts JQuery-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-
     <!-- Scripts JQuery UI-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -20,6 +19,10 @@
     <!-- Estilos de JQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+    <!-- Links de Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
     <!-- Link font-awesome -->
     <link rel="stylesheet" href="./styles/font-awesome/css/font-awesome.min.css">
 
@@ -27,12 +30,18 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
 
+    <script type="text/javascript" src="node_modules/chart.js/dist/Chart.js"></script>
+
     <!-- Scripts y estilos propios-->
     <link href="./styles/styles.css" rel="stylesheet" type="text/css">
     <script src="./js/map.js" type="module"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
     </head>
 <body>
+    <h1 id="appName"> COVID-19 Visualizer</h1>
 
     <div id="chargeCSV" class="position-absolute">
         <form class="form-inline">
@@ -242,6 +251,31 @@
             </div>
 
         </div>
+    </div>
+
+    <div id="chartButtons">
+        <div class="row">
+            <p><a id="evolutionButton" class="btn btn-danger mx-1" href="#modalEvolucionContagios" rel="modal:open">Evolución contagios</a></p>
+
+
+            <div id="modalEvolucionContagios" class="modal Zindex3">
+                <canvas id="evolutionChart" width="400" height="400"></canvas>
+            </div>
+
+            <p><a id="casesButton" class="btn btn-success mx-1" href="#modalCasosPorEdad" rel="modal:open">Casos por edad</a></p>
+
+            <div id="modalCasosPorEdad" class="modal Zindex3">
+                <canvas id="casesChart" width="400" height="400"></canvas>
+            </div>
+
+            <p><a id="statesButton" class="btn btn-warning mx-1" href="#modalEstado" rel="modal:open">Estado</a></p>
+
+            <div id="modalEstado" class="modal Zindex3">
+                <canvas id="statesChart" width="400" height="400"></canvas>
+            </div>
+
+        </div>
+
     </div>
 
 </body>
